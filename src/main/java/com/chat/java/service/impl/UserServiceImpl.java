@@ -192,7 +192,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
     }
 
     @Override
-    public B<UserInfoRes> home() {
+    public B<UserInfoRes> home(UserHomeReq req) {
         UserInfoRes userInfo = this.baseMapper.getUserInfo(JwtUtil.getUserId());
         if(userInfo.getType() == -1){
             userInfo.setType(2);
@@ -216,7 +216,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         userInfo.setContent((null != list && list.size() > 0) ? list.get(0).getContent() : "暂无通知公告");
         List<UseLog> useLogList = useLogService.lambdaQuery()
                 .eq(UseLog::getUserId, JwtUtil.getUserId())
-                .eq(UseLog::getSendType,0)
+                .eq(UseLog::getSendType,req.getSendType())
                 .orderByDesc(UseLog::getId).last("limit 10").list();
         useLogList.forEach(u -> u.setGptKey(null));
         userInfo.setLogList(useLogList);
@@ -245,10 +245,10 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         if(userInfo.getType() == -1){
             userInfo.setType(2);
         }
-        if(null == userInfo.getExpirationTime() || LocalDateTime.now().compareTo(userInfo.getExpirationTime()) > 0){
+        if(null == userInfo.getExpirationTime() || LocalDateTime.now().isAfter(userInfo.getExpirationTime())){
             userInfo.setType(0);
-        }else if(LocalDateTime.now().compareTo(userInfo.getExpirationTime()) <= 0){
-            userInfo.setType(2);
+        }else if(!LocalDateTime.now().isAfter(userInfo.getExpirationTime())){
+            userInfo.setType(1);
         }else {
             userInfo.setType(0);
         }
@@ -261,10 +261,10 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         if(userInfo.getType() == -1){
             userInfo.setType(2);
         }
-        if(null == userInfo.getExpirationTime() || LocalDateTime.now().compareTo(userInfo.getExpirationTime()) > 0){
+        if(null == userInfo.getExpirationTime() || LocalDateTime.now().isAfter(userInfo.getExpirationTime())){
             userInfo.setType(0);
-        }else if(LocalDateTime.now().compareTo(userInfo.getExpirationTime()) <= 0){
-            userInfo.setType(2);
+        }else if(!LocalDateTime.now().isAfter(userInfo.getExpirationTime())){
+            userInfo.setType(1);
         }else {
             userInfo.setType(0);
         }

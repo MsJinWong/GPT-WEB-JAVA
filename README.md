@@ -34,6 +34,8 @@
 * **订单查询**
 * **支付 易支付，支付宝支付，微信支付**  
 * **stable-diffusion画图**  
+* **flagstudio画图**
+* **Midjourney画图**
 
 
 --管理端  
@@ -298,6 +300,22 @@ CREATE TABLE `sys_config` (
   `is_open_proxy` tinyint DEFAULT '0' COMMENT '是否开启代理 0关闭 1开启',
   `proxy_ip` varchar(20) DEFAULT NULL COMMENT '代理ip',
   `proxy_port` int DEFAULT NULL COMMENT '代理端口',
+  `bing_cookie` varchar(300) DEFAULT NULL COMMENT '微软bing cookie',
+  `is_open_bing` tinyint DEFAULT '0' COMMENT '是否开启bing 0-未开启 1开启',
+  `is_open_flag_studio` tinyint DEFAULT '0' COMMENT '是否开启FlagStudio 0-未开启 1开启',
+  `flag_studio_key` varchar(100) DEFAULT NULL COMMENT 'FlagStudio key',
+  `flag_studio_url` varchar(100) DEFAULT NULL COMMENT 'FlagStudio 接口地址',
+  `baidu_appid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '百度appid',
+  `baidu_secret` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '百度Secret\n',
+  `mj_guild_id` bigint DEFAULT NULL COMMENT 'Mj服务器id',
+  `mj_channel_id` bigint DEFAULT NULL COMMENT 'Mj频道id',
+  `mj_user_token` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'discordtoken',
+  `mj_bot_token` varchar(255) DEFAULT NULL COMMENT '频道机器人token',
+  `mj_bot_name` varchar(50) DEFAULT NULL COMMENT '频道机器人名称',
+  `mj_notify_hook` varchar(255) DEFAULT NULL COMMENT '任务状态变更回调地址',
+  `is_open_mj` varchar(255) DEFAULT '0' COMMENT '是否开启bing 0-未开启 1开启',
+  `baidu_key` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '百度应用key',
+  `baidu_secret_key` varchar(50) DEFAULT NULL COMMENT '百度应用Secret',
   `data_version` int DEFAULT '0' COMMENT '数据版本（默认为0，每次编辑+1）',
   `deleted` int DEFAULT '0' COMMENT '是否删除：0-否、1-是',
   `creator` bigint DEFAULT '0' COMMENT '创建人编号（默认为0）',
@@ -382,8 +400,10 @@ com.cn.app.chatgptbot.Application        : Started Application in 5.138 seconds 
 
  
 ## Put It Last  
-**易支付网站地址：[白晨易支付](https://pay888.mfysc.shop/)**  
+**易支付网站地址：[白晨易支付](https://pay999.11zhifu.cn/)**  
 **默认启动时需配置gpt_key,pay_config,sys_config,因为项目启动时会加载对应参数到redis中，如果手动修改数据库，需要在redis中修改对应参数，防止不生效**
+**FlagStudio地址：http://flagstudio.baai.ac.cn/
+
 
  **支付配置(pay_config)**
  字段|描述|注意

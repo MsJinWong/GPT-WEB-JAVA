@@ -58,5 +58,55 @@ public class SysConfig extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "代理端口")
     private Integer proxyPort;
 
+    @ApiModelProperty(value = "微软bing cookie")
+    private String bingCookie;
+
+    @ApiModelProperty(value = "是否开启bing 0-未开启 1开启")
+    private Integer isOpenBing;
+
+
+    @ApiModelProperty(value = "是否开启FlagStudio 0-未开启 1开启")
+    private Integer isOpenFlagStudio;
+
+    @ApiModelProperty(value = "FlagStudio key")
+    private String flagStudioKey;
+
+    @ApiModelProperty(value = "FlagStudio接口地址")
+    private String flagStudioUrl;
+
+
+    @ApiModelProperty(value = "百度appid")
+    private String baiduAppid;
+
+    @ApiModelProperty(value = "百度Secret")
+    private String baiduSecret;
+
+    @ApiModelProperty(value = "discord服务器id")
+    private String mjGuildId;
+
+    @ApiModelProperty(value = "discord频道id")
+    private String mjChannelId;
+
+    @ApiModelProperty(value = "discord用户Token")
+    private String mjUserToken;
+
+    @ApiModelProperty(value = "机器人token")
+    private String mjBotToken;
+
+    @ApiModelProperty(value = "机器人名称")
+    private String mjBotName;
+
+    @ApiModelProperty(value = "任务状态变更回调地址")
+    private String mjNotifyHook;
+
+    @ApiModelProperty(value = "百度应用key")
+    private String baiduKey;
+
+    @ApiModelProperty(value = "百度应用Secret")
+    private String baiduSecretKey;
+
+    @ApiModelProperty(value = "是否开启Mj 0-未开启 1开启")
+    private Integer isOpenMj;
+
 
 }
