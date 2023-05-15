@@ -28,5 +28,7 @@ public class CommonConst {
      * openid接口地址
      */
     public static final String OPEN_AI_URL = "https://api.openai.com/";
+    
+    public static final String AZ_OPEN_AI_URL = "https://honyanai.openai.azure.com/";
 
 }

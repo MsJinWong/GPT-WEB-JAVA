@@ -3,6 +3,7 @@ package com.chat.java.controller.gpt;
 import com.alibaba.fastjson.JSONObject;
 import com.chat.java.base.B;
 import com.chat.java.model.*;
+import com.chat.java.model.gptdto.Gpt35TurboDto;
 import com.chat.java.model.gptdto.GptAlphaDto;
 import com.chat.java.model.gptdto.GptCreditGrantsDto;
 import com.chat.java.model.gptdto.GptTurboDto;
@@ -10,6 +11,7 @@ import com.chat.java.service.*;
 import com.chat.java.utils.InitUtil;
 import com.chat.java.utils.JwtUtil;
 import com.chat.java.utils.ProxyUtil;
+import com.chat.java.utils.WebAZClientUtil;
 import com.chat.java.utils.WebClientUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
@@ -76,6 +78,31 @@ public final class GptApi {
             return B.buildGptErr(result.getMessage());
         }
         return B.buildGptData( WebClientUtil.build(proxyUtil.getProxy(), "/v1/chat/completions", gptTurboModel, mainKey,(Long)result.getData()));
+
+    }
+    
+    
+    /**
+     * 正常对话（上下文非流式，流式暂时使用socket实现）
+     * @param dto the dto
+     * @return the result
+     */
+    @PostMapping(value = "/chat/GPT35", name = "GPT-Turbo", produces = MediaType.APPLICATION_JSON_VALUE)
+    public B gPT35(@Validated @RequestBody final Gpt35TurboDto dto) {
+//        final List<GptTurboModel.Messages> messages = dto.getMessages();
+        /*
+         * Obtain user-sent data for word interception
+         * last one is always the data sent by  user
+         */
+//        weChatDetectUtils.filtration(messages.get(messages.size() - 1).getContent(), dto.getOpenId());
+        // switch to the OpenAPI model
+        final Gpt35Model gptTurboModel = Gpt35TurboDto.convertToGptTurboModel(dto);
+        final String mainKey = InitUtil.getMainKey();
+        B result = checkUser(dto.getType(), mainKey, JSONObject.toJSONString(gptTurboModel.getMessages()),dto.getLogId());
+        if(result.getStatus() != 20000){
+            return B.buildGptErr(result.getMessage());
+        }
+        return B.buildGptData( WebAZClientUtil.build(proxyUtil.getProxy(), "/openai/deployments/GPT35/completions?api-version=2022-12-01", gptTurboModel, mainKey,(Long)result.getData()));
 
     }
 
