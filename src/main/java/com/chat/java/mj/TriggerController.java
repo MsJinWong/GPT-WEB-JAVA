@@ -3,6 +3,7 @@ package com.chat.java.mj;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.chat.java.base.B;
 import com.chat.java.controller.sd.SdController;
@@ -74,15 +75,15 @@ public class TriggerController {
         task.setAction(submitReq.getAction());
         String key;
         Message<Void> result;
-        String promptEn;
+        String promptEn ="";
         if (Action.IMAGINE.equals(submitReq.getAction())) {
             String prompt = submitReq.getPrompt();
-            if (!StringUtils.isEmpty(prompt)) {
+            if (StringUtils.isEmpty(prompt)) {
                 throw new CustomException("prompt 不能为空");
             }
             key = task.getId();
             task.setPrompt(prompt);
-            promptEn = Validator.isChinese(prompt) ? prompt : this.translateService.translateToEnglish(prompt).trim();
+            promptEn = Validator.hasChinese(StrUtil.removeAllLineBreaks(prompt)) ? this.translateService.translateToEnglish(prompt).trim() : prompt;
             task.setFinalPrompt("[" + task.getId() + "]" + promptEn);
             task.setDescription("/imagine " + submitReq.getPrompt());
             this.taskHelper.putTask(task.getId(), task);
@@ -98,7 +99,6 @@ public class TriggerController {
             if (!TaskStatus.SUCCESS.equals(targetTask.getStatus())) {
                 throw new CustomException("关联任务状态错误");
             }
-            promptEn = targetTask.getPrompt();
             task.setPrompt(targetTask.getPrompt());
             task.setFinalPrompt(targetTask.getFinalPrompt());
             task.setRelatedTaskId(ConvertUtils.findTaskIdByFinalPrompt(targetTask.getFinalPrompt()));
