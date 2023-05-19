@@ -17,4 +17,5 @@ public class ChatResponseParameter {
    private String model;
 
    private List<Choice> choices;
+   private Object usage;
 }

@@ -31,7 +31,7 @@ public class ChatGPT35Model {
     /**
      * 这里分别代表密钥，请求的地址，编码
      */
-    private String url="https://honyanai.openai.azure.com/openai/deployments/GPT35/completions?api-version=2022-12-01";
+    private String url="https://honyanai.openai.azure.com/openai/deployments/gpt35/chat/completions?api-version=2023-03-15-preview";
 
     private Charset charset = StandardCharsets.UTF_8;
 
@@ -73,7 +73,7 @@ public class ChatGPT35Model {
         // 设置请求头
         asyncRequest.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         // 设置登录凭证
-        asyncRequest.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + key);
+        asyncRequest.setHeader("api-key", key);
 
         // 下面就是生产者消费者模型
         CountDownLatch latch = new CountDownLatch(1);

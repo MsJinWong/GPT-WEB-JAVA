@@ -102,7 +102,7 @@ public final class GptApi {
         if(result.getStatus() != 20000){
             return B.buildGptErr(result.getMessage());
         }
-        return B.buildGptData( WebAZClientUtil.build(proxyUtil.getProxy(), "/openai/deployments/GPT35/completions?api-version=2022-12-01", gptTurboModel, mainKey,(Long)result.getData()));
+        return B.buildGptData( WebAZClientUtil.build(proxyUtil.getProxy(), "/openai/deployments/gpt35/chat/completions?api-version=2023-03-15-preview", gptTurboModel, mainKey,(Long)result.getData()));
 
     }
 

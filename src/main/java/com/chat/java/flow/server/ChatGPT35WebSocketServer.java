@@ -75,11 +75,11 @@ public class ChatGPT35WebSocketServer {
         ChatGPT35WebSocketServer.edgeChatBot = edgeChatBot;
     }
     private ObjectMapper objectMapper = new ObjectMapper();
-    private static ChatGPT35Model chatModel;
+    private static ChatGPT35Model chatGPT35Model;
 
     @Resource
-    public void setChatModel(ChatGPT35Model chatModel) {
-        ChatGPT35WebSocketServer.chatModel = chatModel;
+    public void setChatGPT35Model(ChatGPT35Model chatGPT35Model) {
+        ChatGPT35WebSocketServer.chatGPT35Model = chatGPT35Model;
     }
 
     @Resource
@@ -168,7 +168,7 @@ public class ChatGPT35WebSocketServer {
             this.useLog.setQuestion(message);
             this.useLog.setSendType(1);
             // 这里就会返回结果
-            String answer = chatModel.getAnswer(session, chatRequestParameter, message,mainKey);
+            String answer = chatGPT35Model.getAnswer(session, chatRequestParameter, message,mainKey);
             if(StringUtils.isEmpty(answer)){
                 //将key删除
                 InitUtil.removeKey(Collections.singletonList(mainKey));
