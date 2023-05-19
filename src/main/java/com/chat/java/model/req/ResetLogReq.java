@@ -16,7 +16,7 @@ import lombok.Data;
 public class ResetLogReq {
 
     @NotNull(message = "日志id不能为空")
-    private Long logId;
+    private String logId;
 
     @NotNull(message = "消息数据不能为空")
     private String newMessages;

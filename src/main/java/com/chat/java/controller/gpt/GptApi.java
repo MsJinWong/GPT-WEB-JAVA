@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -77,7 +78,7 @@ public final class GptApi {
         if(result.getStatus() != 20000){
             return B.buildGptErr(result.getMessage());
         }
-        return B.buildGptData( WebClientUtil.build(proxyUtil.getProxy(), "/v1/chat/completions", gptTurboModel, mainKey,(Long)result.getData()));
+        return B.buildGptData( WebClientUtil.build(proxyUtil.getProxy(), "/v1/chat/completions", gptTurboModel, mainKey,(String)result.getData()));
 
     }
     
@@ -96,13 +97,23 @@ public final class GptApi {
          */
 //        weChatDetectUtils.filtration(messages.get(messages.size() - 1).getContent(), dto.getOpenId());
         // switch to the OpenAPI model
+    	
+    	Integer size = 10;
+    	List<Gpt35Model.Messages> messages = new ArrayList<>();
+    	if(dto.getMessages().size()>size) {
+    		for (int i = dto.getMessages().size()-size; i < dto.getMessages().size(); i++) {
+    			messages.add(dto.getMessages().get(i));
+			}
+    		dto.setMessages(messages);
+    	}
+    	
         final Gpt35Model gptTurboModel = Gpt35TurboDto.convertToGptTurboModel(dto);
         final String mainKey = InitUtil.getMainKey();
         B result = checkUser(dto.getType(), mainKey, JSONObject.toJSONString(gptTurboModel.getMessages()),dto.getLogId());
         if(result.getStatus() != 20000){
             return B.buildGptErr(result.getMessage());
         }
-        return B.buildGptData( WebAZClientUtil.build(proxyUtil.getProxy(), "/openai/deployments/gpt35/chat/completions?api-version=2023-03-15-preview", gptTurboModel, mainKey,(Long)result.getData()));
+        return B.buildGptData( WebAZClientUtil.build(proxyUtil.getProxy(), "/openai/deployments/gpt35/chat/completions?api-version=2023-03-15-preview", gptTurboModel, mainKey,(String)result.getData()));
 
     }
 
@@ -125,7 +136,7 @@ public final class GptApi {
             return B.buildGptErr(result.getMessage());
         }
         return B.buildGptData(
-                WebClientUtil.build(proxyUtil.getProxy(), "/v1/images/generations", gptAlphaModel, mainKey,(Long)result.getData())
+                WebClientUtil.build(proxyUtil.getProxy(), "/v1/images/generations", gptAlphaModel, mainKey,(String)result.getData())
         );
     }
 
@@ -181,7 +192,7 @@ public final class GptApi {
                         , dto.getKey()));
     }
 
-    public B checkUser(Integer type, String mainKey,String message,Long logId){
+    public B checkUser(Integer type, String mainKey,String message,String logId){
         List<GptKey> gptKeyList = gptKeyService.lambdaQuery().eq(GptKey::getKey, mainKey).last("limit 1").list();
         if(null == gptKeyList || gptKeyList.size() == 0){
             return B.buildGptErr("Key 异常 请稍后重试");

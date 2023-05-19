@@ -40,7 +40,7 @@ public final class Gpt35TurboDto {
     @NotNull(message = "登录人类型不能为空")
     private Integer type;
 
-    private Long logId;
+    private String logId;
 
 
     /**

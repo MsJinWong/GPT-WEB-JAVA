@@ -5,6 +5,7 @@ import com.chat.java.flow.chat.ChatMessage;
 import com.chat.java.flow.chat.ChatRequestParameter;
 import com.chat.java.flow.chat.ChatResponseParameter;
 import com.chat.java.flow.chat.Choice;
+import com.chat.java.model.Gpt35Model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.hc.client5.http.async.methods.AbstractCharResponseConsumer;
@@ -23,6 +24,8 @@ import java.io.IOException;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 @Component
@@ -52,6 +55,7 @@ public class ChatGPT35Model {
     public String getAnswer(Session session, ChatGPT35RequestParameter chatGptRequestParameter, String question, String key) {
         asyncClient.start();
         // 创建一个post请求
+        
         AsyncRequestBuilder asyncRequest = AsyncRequestBuilder.post(url);
 
         // 设置请求参数

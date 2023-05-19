@@ -31,7 +31,7 @@ public final class WebClientUtil {
     IGptKeyService gptKeyService;
 
 
-    public static JSONObject build(ClientHttpConnector connector, final String url, final Object body, final String openKey,Long useLogId) {
+    public static JSONObject build(ClientHttpConnector connector, final String url, final Object body, final String openKey,String useLogId) {
 
         final String block = WebClient.builder()
                 .clientConnector(connector)

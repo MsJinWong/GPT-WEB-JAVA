@@ -31,7 +31,7 @@ public final class GptAlphaDto {
     @NotNull(message = "登录人类型不能为空")
     private Integer type;
 
-    private Long logId;
+    private String logId;
     /**
      * Convert to gpt alpha model gpt alpha model.
      *

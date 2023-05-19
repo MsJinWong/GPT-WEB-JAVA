@@ -122,7 +122,7 @@ public final class InitUtil {
     /**
      * Gets random key.
      */
-    public static synchronized void getRandomKey(final String openKey, Long useLogId) {
+    public static synchronized void getRandomKey(final String openKey, String useLogId) {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

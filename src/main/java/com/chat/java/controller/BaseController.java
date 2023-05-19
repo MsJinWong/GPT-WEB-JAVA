@@ -55,7 +55,7 @@ public class BaseController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation(value = "用户登录")
-    @AvoidRepeatRequest(intervalTime = 6 * 1L ,msg = "请勿短时间连续登录")
+    @AvoidRepeatRequest(intervalTime = 10 * 1L ,msg = "请勿短时间连续登录")
     public B<JSONObject> userLogin(@Validated @RequestBody UserLogin userLogin) {
         List<User> list = userService.lambdaQuery()
                 .eq(User::getMobile, userLogin.getMobile())

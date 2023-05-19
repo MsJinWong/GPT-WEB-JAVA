@@ -18,6 +18,11 @@ public class ChatGPT35RequestParameter {
     private boolean stream = true;
 
      public void addMessages(ChatMessage message) {
-        this.messages.add(message);
+    	if(messages.size()<10) {
+    		this.messages.add(message);
+    	}else {
+    		this.messages.remove(0);
+    		this.messages.add(message);
+    	}
     }
 }

@@ -39,7 +39,7 @@ public final class GptTurboDto {
     @NotNull(message = "登录人类型不能为空")
     private Integer type;
 
-    private Long logId;
+    private String logId;
 
 
     /**
